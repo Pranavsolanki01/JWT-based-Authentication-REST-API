@@ -6,14 +6,16 @@ const Contact = require("../models/contactModel");
 //@desc Get all contact
 //@route GET/api/contact
 //@access public
+//@access private <- after adding the user_id in Schema and making accessible only by bearer token
 const getContacts = asyncHandler(async (req, res) => {
-  const contact = await Contact.find();
-  res.status(200).json(contact);
+  const contacts = await Contact.find({ user_id: req.user.id });
+  res.status(200).json(contacts);
 });
 
 //@desc Create new contact
 //@route POST/api/contact
 //@access public
+//@access private <- after adding the user_id in Schema and making accessible only by bearer token
 const createContact = asyncHandler(async (req, res) => {
   const { name, email, phone } = req.body;
   if (!name || !email || !phone) {
@@ -33,6 +35,7 @@ const createContact = asyncHandler(async (req, res) => {
 //@desc Get individual contact
 //@route GET/api/contact/:id
 //@access public
+//@access private <- after adding the user_id in Schema and making accessible only by bearer token
 const getContact = asyncHandler(async (req, res) => {
   const contact = await Contact.findById(req.params.id);
   if (!contact) {
@@ -47,6 +50,7 @@ const getContact = asyncHandler(async (req, res) => {
 //@desc Update contact
 //@route PUT/api/contact/:id
 //@access public
+//@access private <- after adding the user_id in Schema and making accessible only by bearer token
 const updatedContact = asyncHandler(async (req, res) => {
   const contact = await Contact.findById(req.params.id);
   if (!contact) {
@@ -65,6 +69,7 @@ const updatedContact = asyncHandler(async (req, res) => {
 //@desc Delete contact
 //@route DELETE/api/contact/:id
 //@access public
+//@access private <- after adding the user_id in Schema and making accessible only by bearer token
 const deleteContact = asyncHandler(async (req, res) => {
   const contact = await Contact.findByIdAndDelete(req.params.id);
   // if (!contact) {
